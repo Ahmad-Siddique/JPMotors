@@ -1,0 +1,34 @@
+import React from "react";
+import { Box, Button, Typography } from "@mui/material";
+import CustomModal from "../../CustomModal";
+import DataTable from "../../../common/DataTable";
+
+const columns = [
+    { id: "id", label: "ID" },
+    { id: "machineName", label: "Machine Name", type: "link" },
+    { id: "hours", label: "Hours" },
+    { id: "user", label: "Utilisateur" }
+];
+
+const rows = [
+    { id: 103, machineName: "Okaspara", hours: 5, user: "Atif Rehmani" },
+    { id: 103, machineName: "Okaspara", hours: 5, user: "Atif Rehmani" },
+    { id: 103, machineName: "Okaspara", hours: 5, user: "Atif Rehmani" }
+];
+
+const MachineAddingModal = ({ open, onClose }) => {
+    return (
+        <CustomModal open={open} onClose={onClose} title="Add Machines" height="400px" width="600px">
+            <Box display="flex" flexDirection="column" gap={2}>
+                <DataTable columns={columns} rows={rows} pageSize={3} onLinkClick={(value) => console.log("Clicked:", value)} />
+                <Box display="flex" justifyContent="space-between" mt={2}>
+                    <Button variant="contained" color="primary">Machine Parts List</Button>
+                    <Button variant="contained" color="primary">+ Insérer</Button>
+                    <Button variant="contained" disabled>Modify</Button>
+                </Box>
+            </Box>
+        </CustomModal>
+    );
+};
+
+export default MachineAddingModal;
