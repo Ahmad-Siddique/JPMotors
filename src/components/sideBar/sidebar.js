@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../resources/images/logo/logo.png";
 import {
   Drawer,
@@ -36,6 +36,7 @@ const icons = {
 const Sidebar = () => {
   const [openMenus, setOpenMenus] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation();
 
   const handleToggle = (menuName) => {
     setOpenMenus((prev) => ({
@@ -44,13 +45,22 @@ const Sidebar = () => {
     }));
   };
 
+  // Check if a menu item is selected
+  const isSelected = (menuPath) => {
+    return (
+      location.pathname === menuPath ||
+      location.pathname.startsWith(menuPath + "/")
+    );
+  };
+
   // Filtering menu items based on search
-  const filteredMenuItems = sidebarData.menuItems.filter((menu) =>
-    menu.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (menu.subMenu &&
-      menu.subMenu.some((subItem) =>
-        subItem.toLowerCase().includes(searchTerm.toLowerCase())
-      ))
+  const filteredMenuItems = sidebarData.menuItems.filter(
+    (menu) =>
+      menu.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (menu.subMenu &&
+        menu.subMenu.some((subItem) =>
+          subItem.toLowerCase().includes(searchTerm.toLowerCase())
+        ))
   );
 
   return (
@@ -77,45 +87,104 @@ const Sidebar = () => {
 
       {/* Sidebar Menu */}
       <List>
-        {filteredMenuItems.map((menu) => (
-          <React.Fragment key={menu.name}>
-            {/* Main Menu Item */}
-            <ListItemButton
-              onClick={menu.subMenu ? () => handleToggle(menu.name) : undefined}
-              component={!menu.subMenu ? Link : "div"}
-              to={!menu.subMenu ? `/${menu.name.toLowerCase().replace(/\s+/g, "-")}` : undefined}
-              sx={sidebarStyles.listItem}
-            >
-              <ListItemIcon sx={{ color: "#FFFFFFB2" }}>
-                {icons[menu.icon] || <InsertDriveFile />}
-              </ListItemIcon>
-              <ListItemText primary={menu.name} />
-              {menu.subMenu && (openMenus[menu.name] ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
+        {filteredMenuItems.map((menu) => {
+          const menuPath = `/${menu.name.toLowerCase().replace(/\s+/g, "-")}`;
+          const isMenuSelected = isSelected(menuPath);
 
-            {/* Submenu Items */}
-            {menu.subMenu && (
-              <Collapse in={openMenus[menu.name]} timeout="auto" unmountOnExit>
-                <List component="div" disablePadding sx={sidebarStyles.hierarchyContainer}>
-                  {menu.subMenu
-                    .filter((subItem) =>
-                      subItem.toLowerCase().includes(searchTerm.toLowerCase())
-                    )
-                    .map((subItem) => (
-                      <ListItemButton
-                        key={subItem}
-                        component={Link}
-                        to={`/${menu.name.toLowerCase().replace(/\s+/g, "-")}/${subItem.toLowerCase().replace(/\s+/g, "-")}`}
-                        sx={sidebarStyles.subMenuItem}
-                      >
-                        <ListItemText primary={subItem} />
-                      </ListItemButton>
-                    ))}
-                </List>
-              </Collapse>
-            )}
-          </React.Fragment>
-        ))}
+          return (
+            <React.Fragment key={menu.name}>
+              {/* Main Menu Item */}
+              <ListItemButton
+                onClick={
+                  menu.subMenu ? () => handleToggle(menu.name) : undefined
+                }
+                component={!menu.subMenu ? Link : "div"}
+                to={!menu.subMenu ? menuPath : undefined}
+                sx={{
+                  ...sidebarStyles.listItem,
+                  backgroundColor: isMenuSelected
+                    ? "rgba(33, 150, 243, 0.12)" // Light blue background
+                    : "transparent",
+                }}
+              >
+                <ListItemIcon
+                  sx={{ color: isMenuSelected ? "#2196F3" : "#FFFFFFB2" }} // Blue icon when selected
+                >
+                  {icons[menu.icon] || <InsertDriveFile />}
+                </ListItemIcon>
+                <ListItemText
+                  primary={menu.name}
+                  sx={{
+                    "& .MuiTypography-root": {
+                      color: isMenuSelected ? "#2196F3" : "#FFFFFFB2", // Blue text when selected
+                    },
+                  }}
+                />
+                {menu.subMenu &&
+                  (openMenus[menu.name] ? (
+                    <ExpandLess
+                      sx={{ color: isMenuSelected ? "#2196F3" : "#FFFFFFB2" }}
+                    />
+                  ) : (
+                    <ExpandMore
+                      sx={{ color: isMenuSelected ? "#2196F3" : "#FFFFFFB2" }}
+                    />
+                  ))}
+              </ListItemButton>
+
+              {/* Submenu Items */}
+              {menu.subMenu && (
+                <Collapse
+                  in={openMenus[menu.name]}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List
+                    component="div"
+                    disablePadding
+                    sx={sidebarStyles.hierarchyContainer}
+                  >
+                    {menu.subMenu
+                      .filter((subItem) =>
+                        subItem.toLowerCase().includes(searchTerm.toLowerCase())
+                      )
+                      .map((subItem) => {
+                        const subItemPath = `${menuPath}/${subItem
+                          .toLowerCase()
+                          .replace(/\s+/g, "-")}`;
+                        const isSubItemSelected = isSelected(subItemPath);
+
+                        return (
+                          <ListItemButton
+                            key={subItem}
+                            component={Link}
+                            to={subItemPath}
+                            sx={{
+                              ...sidebarStyles.subMenuItem,
+                              backgroundColor: isSubItemSelected
+                                ? "rgba(33, 150, 243, 0.12)" // Light blue background
+                                : "transparent",
+                            }}
+                          >
+                            <ListItemText
+                              primary={subItem}
+                              sx={{
+                                "& .MuiTypography-root": {
+                                  color: isSubItemSelected
+                                    ? "#2196F3" // Blue text when selected
+                                    : "#FFFFFFB2",
+                                },
+                              }}
+                            />
+                          </ListItemButton>
+                        );
+                      })}
+                  </List>
+                </Collapse>
+              )}
+            </React.Fragment>
+          );
+        })}
       </List>
     </Drawer>
   );

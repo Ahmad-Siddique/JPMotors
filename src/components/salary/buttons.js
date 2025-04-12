@@ -13,6 +13,8 @@ import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import DebitNoteModal from "./DebitNoteModal";
 import CreditNoteModal from "./CreditNoteModal";
 import BulletinDePaieModal from "./BulletinDePaieModal";
+import PaymentDateModal from "./PaymentDateModal";
+import AdvancePaymentSalary from "./AdvancePaymentSalary";
 const buttonLabels = [
   "Debit Note",
   "Credit Note",
@@ -35,7 +37,8 @@ const ButtonSection = () => {
     const [open, setOpen] = useState(false);
      const [creditOpen, setCreditOpen] = useState(false);
     const [bulletinOpen, setBulletinOpen] = useState(false);
-    
+  const [paymentDateOpen, setPaymentDateOpen] = useState(false);
+  const [advanceDateOpen, setAdvanceDateOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -44,7 +47,13 @@ const ButtonSection = () => {
     const handleCreditClose = () => setCreditOpen(false);
     
      const handleBulletinOpen = () => setBulletinOpen(true);
-     const handleBulletinClose = () => setBulletinOpen(false);
+  const handleBulletinClose = () => setBulletinOpen(false);
+  
+   const handlePaymentDateOpen = () => setPaymentDateOpen(true);
+  const handlePaymentDateClose = () => setPaymentDateOpen(false);
+  
+   const handleAdvanceDateOpen = () => setAdvanceDateOpen(true);
+   const handleAdvanceDateClose = () => setAdvanceDateOpen(false);
 
   return (
     <Box
@@ -80,6 +89,10 @@ const ButtonSection = () => {
               handleCreditOpen();
             } else if (label === "Bulletin De Paie") {
               handleBulletinOpen();
+            } else if (label === "Payment Date") {
+              handlePaymentDateOpen();
+            } else if (label === "Advance Salary") {
+              handleAdvanceDateOpen();
             }
           }}
         >
@@ -92,6 +105,15 @@ const ButtonSection = () => {
       <BulletinDePaieModal
         open={bulletinOpen}
         handleClose={handleBulletinClose}
+      />
+      <PaymentDateModal
+        open={paymentDateOpen}
+        handleClose={handlePaymentDateClose}
+      />
+
+      <AdvancePaymentSalary
+        open={advanceDateOpen}
+        handleClose={handleAdvanceDateClose}
       />
     </Box>
   );

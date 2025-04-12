@@ -5,31 +5,19 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { setHeaderCard } from "../store/actions/headerCardActions";
 import HeaderCard from "../components/common/HeaderCard";
-import ArticleDetail from "../components/common/ArticleDetail";
-import PriceDetail from "../components/common/PriceDetail";
-import EmplacementQuantityDetail from "../components/common/EmplacementQuantityDetail";
-import {
-  ModifyButton,
-  ChangeConvRateButton,
-  HistoryButton,
-  InformationSurCommandeButton,
-  CancelButton,
-  SaveButton
-} from "../components/buttons/ButtonComponents";
-import ChangeConversionRateModal from "../components/modals/ChangeConversionRateModal";
-import MainArticle from "../components/article/MainScreen";
 
-const Article = () => {
+import MainScreen from "../components/askproductprice/MainScreen";
+
+const AskProductPrice = () => {
   const dispatch = useDispatch();
   const [openConvRateModal, setOpenConvRateModal] = useState(false);
 
   useEffect(() => {
     dispatch(
-      setHeaderCard(
-        "Article",
-        "Find your desired products",
-        ["File", "Article List"]
-      )
+      setHeaderCard("Demade de Prix", "Find your desired products", [
+        "File",
+        "Ask Product Price",
+      ])
     );
   }, [dispatch]);
 
@@ -45,10 +33,10 @@ const Article = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box>
         <HeaderCard />
-       <MainArticle />
+        <MainScreen />
       </Box>
     </LocalizationProvider>
   );
 };
 
-export default Article;
+export default AskProductPrice;

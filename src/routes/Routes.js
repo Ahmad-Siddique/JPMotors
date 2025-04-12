@@ -10,6 +10,16 @@ import AddClient from "../pages/AddClient";
 import Suppliers from "../pages/Suppliers";
 import TaxDeduction from "../pages/Tax-deduction";
 import Salary from "../pages/Salary";
+import AddArticle from "../components/article/AddArticle";
+import ArticleWholeSale from "../pages/ArticleWholeSale";
+import ProductSalePrice from "../pages/ProductSalePriceByClient";
+import BOM from "../pages/BOM";
+import AskProductPrice from "../pages/AskProductPrice";
+
+
+
+
+
 const AppRoutes = () => {
   return (
     <Routes>
@@ -43,6 +53,31 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Article />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/file/articles/add"
+        element={
+          <PrivateRoute>
+            <AddArticle />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/file/articles-wholesale"
+        element={
+          <PrivateRoute>
+            <ArticleWholeSale />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/file/articleswholesale/add"
+        element={
+          <PrivateRoute>
+            <AddArticle />
           </PrivateRoute>
         }
       />
@@ -83,6 +118,33 @@ const AppRoutes = () => {
         element={
           <PrivateRoute>
             <Salary />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/file/product-sale-price"
+        element={
+          <PrivateRoute>
+            <ProductSalePrice />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/file/bom"
+        element={
+          <PrivateRoute>
+            <BOM />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/file/ask-product-price"
+        element={
+          <PrivateRoute>
+            <AskProductPrice />
           </PrivateRoute>
         }
       />

@@ -14,21 +14,21 @@ import {
   HistoryButton,
   InformationSurCommandeButton,
   CancelButton,
-  SaveButton
+  SaveButton,
 } from "../components/buttons/ButtonComponents";
 import ChangeConversionRateModal from "../components/modals/ChangeConversionRateModal";
-import MainArticle from "../components/article/MainScreen";
+import MainScreen from "../components/productsaleprice/MainScreen";
 
-const Article = () => {
+const ProductSalePrice = () => {
   const dispatch = useDispatch();
   const [openConvRateModal, setOpenConvRateModal] = useState(false);
 
   useEffect(() => {
     dispatch(
       setHeaderCard(
-        "Article",
+        "Product Sale Price",
         "Find your desired products",
-        ["File", "Article List"]
+        ["File", "Product Sale Price"]
       )
     );
   }, [dispatch]);
@@ -45,10 +45,10 @@ const Article = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box>
         <HeaderCard />
-       <MainArticle />
+        <MainScreen />
       </Box>
     </LocalizationProvider>
   );
 };
 
-export default Article;
+export default ProductSalePrice;

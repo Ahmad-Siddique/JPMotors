@@ -59,7 +59,6 @@ const dummyProducts = [
     segment: "ACCESSORIES",
     avatar: "https://i.pravatar.cc/40?img=2",
   },
-  
 ];
 
 // Action Creator: Fetch Products
